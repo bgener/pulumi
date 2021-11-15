@@ -33,6 +33,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
+  call-workflow:
+    uses: pulumi/pulumi/.github/workflows/build.yml@56f0ba9ccbd1e4ff10ccd03ad897d5b22b6ce4d4
+
   comment-notification:
     # We only care about adding the result to the PR if it's a repository_dispatch event
     if: github.event_name == 'repository_dispatch'
