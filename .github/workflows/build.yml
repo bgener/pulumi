@@ -4,26 +4,38 @@ on:
   workflow_call:
     inputs: {}
     secrets: {}
+  push:
+    tags:
+      - explicit_build_yml*
 
 jobs:
+  # TODO decide if we are using preprelease or release goreleaser config
+  # TODO build with goreleaser across platforms
+  # TODO note that the build needs to run on Mac worker because we use CGO
+  # TODO use upload action to grab the artifacts
   build_pulumi_cli:
-    name: Builds `pulumi` binary
+    name: Builds pulumi binary
     runs-on: ubuntu-latest
-    matrix:
-      go-version: [ 1.17.x ]
     steps:
-      - name: Set up Go ${{ matrix.go-version }}
-        uses: actions/setup-go@v1
-        with:
-          go-version: ${{ matrix.go-version }}
+      - name: Install Make and Git
+        run: |
+            apt-get -y update
+            apt-get -y install make git
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
           ref: ${{ env.PR_COMMIT_SHA }}
+      - name: Fetch Tags
+        run: |
+          git fetch --quiet --prune --unshallow --tags
       - name: Install pulumictl
         uses: jaxxstorm/action-install-gh-release@v1.2.0
         with:
           repo: pulumi/pulumictl
+      - name: Set up Go 1.17.x
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.17.x
       - name: Build `pulumi` CLI
         run: |
           make install
