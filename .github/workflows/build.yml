@@ -8,6 +8,9 @@ on:
     tags:
       - explicit_build_yml*
 
+env:
+  GITHUB_TOKEN: ${{ secrets.PULUMI_BOT_TOKEN }}
+
 jobs:
   # TODO decide if we are using preprelease or release goreleaser config
   # TODO build with goreleaser across platforms
