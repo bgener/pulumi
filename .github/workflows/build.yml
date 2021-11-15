@@ -17,10 +17,6 @@ jobs:
     name: Builds pulumi binary
     runs-on: ubuntu-latest
     steps:
-      - name: Install Make and Git
-        run: |
-            apt-get -y update
-            apt-get -y install make git
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
