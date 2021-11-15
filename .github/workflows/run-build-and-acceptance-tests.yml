@@ -35,7 +35,7 @@ concurrency:
 jobs:
 
   call-workflow:
-    uses: pulumi/pulumi/.github/workflows/build.yml@ab2fbbff47dcca4f1e847ee9b69f7888a63a44e9
+    uses: pulumi/pulumi/.github/workflows/build.yml@5da7be95cf5d0b06be739a31bd0cadf044247c24
 
   comment-notification:
     # We only care about adding the result to the PR if it's a repository_dispatch event
