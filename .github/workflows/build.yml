@@ -10,7 +10,7 @@ on:
         type: string
       goreleaser-flags:
         description: 'Command-line flags to pass to goreleaser'
-        default: '-p 3 -f .goreleaser.build.yml --skip-validate'
+        default: '-p 3 -f .goreleaser.build.yml --snapshot --skip-validate'
         required: false
         type: string
       go-binaries-artifact-name:
