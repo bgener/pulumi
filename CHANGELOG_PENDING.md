@@ -27,6 +27,11 @@
 - [sdk/go] - Allow specifying Call failures from the provider.
   [#8424](https://github.com/pulumi/pulumi/pull/8424)
 
+- [codegen/go] - Program generator now uses fnOutput forms where
+  appropriate, simplifying auto-generated examples.
+  [#8431](https://github.com/pulumi/pulumi/pull/8431)
+
+
 ### Bug Fixes
 
 - [engine] - Compute dependents correctly during targeted deletes.
