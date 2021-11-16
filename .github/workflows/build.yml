@@ -13,11 +13,6 @@ on:
         default: '-p 3 -f .goreleaser.build.yml --snapshot --skip-validate'
         required: false
         type: string
-      go-binaries-artifact-name:
-        description: 'Name for the artifact containing Go binaries'
-        default: 'pulumi-go-binaries'
-        required: false
-        type: string
     secrets: {}
 
 env:
@@ -55,8 +50,28 @@ jobs:
         with:
           version: latest
           args: ${{ inputs.goreleaser-flags }}
-      - name: Upload Go Pulumi binaries to share with other jobs
+      - name: Upload pulumi-darwin-arm64.tar.gz
         uses: actions/upload-artifact@v2
         with:
-            name: ${{ inputs.go-binaries-artifact-name }}
-            path: goreleaser/
+            name: pulumi-darwin-arm64
+            path: goreleaser/pulumi*-darwin-arm64.tar.gz
+      - name: Upload pulumi-darwin-x64.tar.gz
+        uses: actions/upload-artifact@v2
+        with:
+            name: pulumi-darwin-x64
+            path: goreleaser/pulumi*-darwin-x64.tar.gz
+      - name: Upload pulumi-linux-arm64.tar.gz
+        uses: actions/upload-artifact@v2
+        with:
+            name: pulumi-linux-arm64.tar.gz
+            path: goreleaser/pulumi*-linux-arm64.tar.gz
+      - name: Upload pulumi-linux-x64.tar.gz
+        uses: actions/upload-artifact@v2
+        with:
+            name: pulumi-linux-x64.tar.gz
+            path: goreleaser/pulumi*-linux-x64.tar.gz
+      - name: Upload pulumi-windows-x64.zip
+        uses: actions/upload-artifact@v2
+        with:
+            name: pulumi-windows-x64.zip
+            path: goreleaser/pulumi*-windows-x64.zip
