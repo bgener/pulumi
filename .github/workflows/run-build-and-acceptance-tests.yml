@@ -34,8 +34,23 @@ concurrency:
 
 jobs:
 
-  call-workflow:
+  build-pulumi-binaries:
     uses: pulumi/pulumi/.github/workflows/build.yml@398ba3902ff1b1a25f1755475f694349423b2e08
+
+  inspect-pulumi-binaries:
+    runs-on: ubuntu-latest
+    needs: build-pulumi-binaries
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: pulumi-go-binaries
+          path: bin
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: bin
 
   comment-notification:
     # We only care about adding the result to the PR if it's a repository_dispatch event
