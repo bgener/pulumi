@@ -2,21 +2,35 @@ name: Builds CLI and SDK binaries.
 
 on:
   workflow_call:
-    inputs: {}
+    inputs:
+      go-version:
+        description: 'Version of the Go toolchain for the build'
+        default: '1.17.x'
+        required: false
+        type: string
+      goreleaser-flags:
+        description: 'Command-line flags to pass to goreleaser'
+        default: '-p 3 -f .goreleaser.build.yml --skip-validate'
+        required: false
+        type: string
+      go-binaries-artifact-name:
+        description: 'Name for the artifact containing Go binaries'
+        default: 'pulumi-go-binaries'
+        required: false
+        type: string
     secrets: {}
-  push:
-    tags:
-      - explicit_build_yml*
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  # TODO flag for goreleaser params
-  # TODO re-enable darwin in Goreleaser config, test out on darwin worker
   build_pulumi_go_binaries:
-    name: Builds Pulumi Go binaries
-    runs-on: ubuntu-latest
+    name: Build Pulumi Go binaries
+
+    # Due to the use of CGO in `pulumi` this cross-compilation step
+    # cannot proceed on `ubuntu-latest`, which would have been
+    # preferable.
+    runs-on: macos-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -29,10 +43,10 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.2.0
         with:
           repo: pulumi/pulumictl
-      - name: Set up Go 1.17.x
+      - name: Set up Go ${{ inputs.go-version }}
         uses: actions/setup-go@v1
         with:
-          go-version: 1.17.x
+          go-version: ${{ inputs.go-version }}
       - name: Compute current version to inform GoReleaser
         run: |
           echo "GORELEASER_CURRENT_TAG=v$(pulumictl get version --language generic -o)" >> $GITHUB_ENV
@@ -40,9 +54,9 @@ jobs:
         uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
-          args: -p 3 -f .goreleaser.build.yml --skip-validate
+          args: ${{ inputs.goreleaser-flags }}
       - name: Upload Go Pulumi binaries to share with other jobs
         uses: actions/upload-artifact@v2
         with:
-            name: pulumi-go-binaries
+            name: ${{ inputs.go-binaries-artifact-name }}
             path: goreleaser/
