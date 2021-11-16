@@ -68,7 +68,7 @@ builds:
     - arm64
   goos:
     - linux
-    - darwin
+    #- darwin
   ldflags:
     - -X github.com/pulumi/pulumi/pkg/v3/version.Version={{.Tag}}
   main: ./cmd/pulumi
@@ -80,7 +80,7 @@ builds:
     - arm64
   goos:
     - linux
-    - darwin
+    #- darwin
   ldflags:
     - -X github.com/pulumi/pulumi/pkg/v3/version.Version={{.Tag}}
   main: ./nodejs/cmd/pulumi-language-nodejs
@@ -92,7 +92,7 @@ builds:
     - arm64
   goos:
     - linux
-    - darwin
+    #- darwin
   ldflags:
     - -X github.com/pulumi/pulumi/pkg/v3/version.Version={{.Tag}}
   main: ./python/cmd/pulumi-language-python
@@ -104,7 +104,7 @@ builds:
     - arm64
   goos:
     - linux
-    - darwin
+    #- darwin
   ldflags:
     - -X github.com/pulumi/pulumi/pkg/v3/version.Version={{.Tag}}
   main: ./dotnet/cmd/pulumi-language-dotnet
@@ -116,7 +116,7 @@ builds:
     - arm64
   goos:
     - linux
-    - darwin
+    #- darwin
   ldflags:
     - -X github.com/pulumi/pulumi/pkg/v3/version.Version={{.Tag}}
   main: ./go/pulumi-language-go
