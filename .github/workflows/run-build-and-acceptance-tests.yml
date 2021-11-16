@@ -35,7 +35,7 @@ concurrency:
 jobs:
 
   build-pulumi-binaries:
-    uses: pulumi/pulumi/.github/workflows/build.yml@${{ env.PR_COMMIT_SHA }}
+    uses: pulumi/pulumi/.github/workflows/build.yml@61448c9e2722e76a4098be7d4f73d33fdea76c53
 
   inspect-pulumi-binaries:
     runs-on: ubuntu-latest
