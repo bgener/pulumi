@@ -12,12 +12,10 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  # TODO decide if we are using preprelease or release goreleaser config
-  # TODO build with goreleaser across platforms
-  # TODO note that the build needs to run on Mac worker because we use CGO
-  # TODO use upload action to grab the artifacts
-  build_pulumi_cli:
-    name: Builds pulumi binary
+  # TODO flag for goreleaser params
+  # TODO re-enable darwin in Goreleaser config, test out on darwin worker
+  build_pulumi_go_binaries:
+    name: Builds Pulumi Go binaries
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -35,8 +33,16 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: 1.17.x
-      - name: Build `pulumi` CLI
+      - name: Compute current version to inform GoReleaser
         run: |
-          make install
-        env:
-          PULUMI_ROOT: ${{ runner.temp }}/opt/pulumi
+          echo "GORELEASER_CURRENT_TAG=v$(pulumictl get version --language generic -o)" >> $GITHUB_ENV
+      - name: Run GoReleaser to build Go Pulumi binaries
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: -p 3 -f .goreleaser.build.yml --skip-validate
+      - name: Upload Go Pulumi binaries to share with other jobs
+        uses: actions/upload-artifact@v2
+        with:
+            name: pulumi-go-binaries
+            path: goreleaser/
