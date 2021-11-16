@@ -27,6 +27,10 @@
 - [sdk/go] - Allow specifying Call failures from the provider.
   [#8424](https://github.com/pulumi/pulumi/pull/8424)
 
+- [codegen/dotnet] - Program generator now uses `Invoke` forms where
+  appropriate, simplifying auto-generated examples.
+  [#8432](https://github.com/pulumi/pulumi/pull/8432)
+
 ### Bug Fixes
 
 - [engine] - Compute dependents correctly during targeted deletes.
