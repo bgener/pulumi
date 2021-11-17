@@ -17,7 +17,41 @@ To hack on Pulumi, you'll need to get a development environment set up. You'll w
 - [Yarn](https://yarnpkg.com/)
 - [Pulumictl](https://github.com/pulumi/pulumictl)
 
-## Getting dependencies on macOS
+## Configuring Windows machine
+
+Follow these instructions to setup Pulumi development environment on a Windows-based machine. You need to install these tools:
+
+- [Windows Subsystem (WSL) for Linux](https://docs.microsoft.com/windows/wsl/install-manual)
+- [Docker Desktop WSL backend](https://docs.docker.com/desktop/windows/install/)
+- [Visual Studio Code](https://code.visualstudio.com/) and [Remote - WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl) extension for VS Code
+
+Once you've installed the required components, open `Microsoft Store` and search for `Linux`. You will see a list of distros to pick from including Ubuntu. Although you can work with any suitable Linux distribution, we assume that Ubuntu is picked. Launch Ubuntu as an app, which will open a command line window to its bash shell.
+
+Run the following command to install brew as Homebrew:
+
+```bash
+sudo apt update
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Pay close attention to the output - you'll need to add run additional commands to add brew to your PATH as shown below:
+
+```bash
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/my_demo_username/.profile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+```
+
+FInally, you need to clone pulumi repository from within the WSL terminal and launch the VS Code as following:
+
+```bash
+git clone https://github.com/pulumi/pulumi.git
+cd pulumi/
+code .
+```
+
+Congratulations, the configuration of the Windows development environment is complete! You can now proceed with [Installing dependencies](#installing-dependencies), just use the VS Code bash terminal to run brew and the follow-up commands. 
+
+## Installing dependencies
 
 You can easily get all required dependencies with brew and npm
 
@@ -36,9 +70,7 @@ If you have a web browser, you can get a fully pre-configured Pulumi development
 
 ## Make build system
 
-We use `make` as our build system, so you'll want to install that as well, if you don't have it already. We have extremely limited support for doing development on Windows (the bare minimum for us to get Windows validation of `pulumi`) so if you're on windows, we recommend that you use the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10). We'd like to [make this better](https://github.com/pulumi/pulumi/issues/208) so feel free to pitch in if you can.
-
-We build Pulumi in `$PULUMI_ROOT`, which defaults to `$HOME/.pulumi`. If you would like to build Pulumi in another location, you do so by setting `$PULUMI_ROOT`. 
+We use `make` as our build system, so you'll want to install that as well, if you don't have it already. We build Pulumi in `$PULUMI_ROOT`, which defaults to `$HOME/.pulumi`. If you would like to build Pulumi in another location, you do so by setting `$PULUMI_ROOT`. 
 
 ```bash
 export PATH=$HOME/.pulumi/bin:$PATH
